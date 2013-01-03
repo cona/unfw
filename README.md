@@ -3,8 +3,11 @@ unfw
 フォローされているユーザをcronで監視  
 フォロー解除されるとメールで通知するPHPスクリプト
  
-必要なパッケージ
+必要な環境
 -----
+* 以下のコマンドでメールを送れること  
+``php -r "mail('メールアドレス', 'test','hoge');"``
+* パッケージ  
 https://github.com/abraham/twitteroauth
 
 使い方
