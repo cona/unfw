@@ -15,7 +15,7 @@ https://github.com/abraham/twitteroauth
 初回は手動で叩いてあげてログファイルを生成してあげてください。  
 
     php unfw.php
-    ls -la unfw.log <= 777なり読み書きできる系ができていたらOK
+    ls -la unfw.log <= 0666なり読み書きできる系ができていたらOK
     
 それができたら、cronにいれましょう。
 
