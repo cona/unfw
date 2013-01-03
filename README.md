@@ -6,10 +6,13 @@ unfw
 
 使い方
 ------
-``crontab -e``  
-
-``1 *   *   *   *   /usr/bin/php -f /home/cona/cron/unfw.php
-``
+初回は手動で叩いてあげてログファイルを生成してあげてください。  
+    php unfw.php
+    ls -la unfw.log <= 777なり読み書きできる系ができていたらOK
+それができたら、cronにいれましょう。
+    crontab -e
+    1 *   *   *   *   /usr/bin/php -f /home/cona/cron/unfw.php
+好きな間隔で良いと思います。僕は毎時1分に発動するようにしました。
  
 パラメータの解説
 ----------------
