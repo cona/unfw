@@ -19,7 +19,7 @@ $prev_fws = array();
 //ログの存在確認なければ作成
 if (!is_file(LOG_FILE)) {
 	file_put_contents(LOG_FILE, '');
-	chmod(LOG_FILE, 0777);
+	chmod(LOG_FILE, 0666);
 	echo 'logfile initialized.'.PHP_EOL;
 } else {
 	$json = file_get_contents(LOG_FILE);
