@@ -1,5 +1,5 @@
 <?php
-
+date_default_timezone_set('Asia/Tokyo');
 ////設定
 define('LOG_FILE', '/home/hogehoge/cron/unfw.log');
 define('CONSUMER_KEY', 'aaaa');
@@ -11,14 +11,14 @@ define('FROM_MAIL','from@example.com');
 define('REPLY_MAIL','replay@example.com');
 ////
 
-require_once 'twitteroauth.php';
+require "twitteroauth/autoload.php";
 
 //前回のフォロワー情報初期化
 $prev_fws = array();
 
 //ログの存在確認なければ作成
 if (!is_file(LOG_FILE)) {
-	file_put_contents(LOG_FILE, '');
+	file_put_contents(LOG_FILE, json_encode(array()));
 	chmod(LOG_FILE, 0666);
 	echo 'logfile initialized.'.PHP_EOL;
 } else {
@@ -27,9 +27,8 @@ if (!is_file(LOG_FILE)) {
 }
 
 //twitterからデータ取得
-$to = new TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET);
-$req = $to->OAuthRequest('https://api.twitter.com/1.1/followers/ids.json','GET', array());
-$json = json_decode($req);
+$to = new \Abraham\TwitterOAuth\TwitterOAuth(CONSUMER_KEY, CONSUMER_SECRET, ACCESS_TOKEN, ACCESS_TOKEN_SECRET);
+$json = $to->get('followers/ids');
 if (isset($json->errors)) {
 	exit($json->errors[0]->message. PHP_EOL);
 }
@@ -50,8 +49,7 @@ $txt = 'フォロー解除されました。'. date('Y-m-d H:i:s'). PHP_EOL;
 //フォロー解除したユーザの配列チェック
 foreach ($fwdiff as $unfw) {
 	//ユーザデータ取得
-	$req = $to->OAuthRequest('http://api.twitter.com/1.1/users/show.json',"GET",array('user_id'=>$unfw));
-	$json = json_decode($req);
+	$json = $to->get('users/show',array('user_id'=>$unfw));
 	
 	//メールテキスト生成
 	$txt .= $json->screen_name;
